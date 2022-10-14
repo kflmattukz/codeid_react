@@ -42,4 +42,6 @@
 
 ### Tugas 1
 
-- [ ] Membuat fungsi tambah dan kurang gaji
+- [x] Membuat fungsi tambah dan kurang gaji
+- [x] Fix Total Salary saat menambahkan Employee baru
+- [x] Install Tailwindcss dan percantik
