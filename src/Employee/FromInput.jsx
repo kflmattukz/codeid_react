@@ -28,7 +28,7 @@ function FromInput({onSubmit}) {
 
   return (
     <div className='w-3/5 mx-auto'>
-      <form onSubmit={(e) => handleSubmit(e)} className='w-1/2 text-lg text-gray-700 flex flex-col'>
+      <form onSubmit={(e) => handleSubmit(e)} className='w-1/2 text-lg text-gray-600 flex flex-col gap-2'>
         <label htmlFor="fullname">Full Name</label>
         <input 
           className='border focus:outline-none rounded-md p-1 pl-2 focus:ring focus:ring-blue-300'
@@ -37,17 +37,17 @@ function FromInput({onSubmit}) {
           value={fullname} 
           id="fullname"
           onChange={(e) => handleChange(e, 'fullname') } 
-        /><br/>
+        />
         <label htmlFor="salary">Salary</label>
         <input 
           className='border focus:outline-none rounded-md p-1 pl-2 focus:ring focus:ring-blue-300'
-          type="text"
+          type="number"
           name="salary"
           value={parseInt(salary)}
           id="salary"
           onChange={(e) => handleChange(e, 'salary')}
         /><br/>
-        <button type="submit" className='p-1 my-2 bg-blue-600 rounded text-sm text-white font-semibold'>Tambah</button>
+        <button type="submit" className='py-2 my-2 bg-blue-600 rounded text-base text-white font-semibold focus:outline-none focus:ring ring-blue-400 hover:ring'>Tambah</button>
       </form>
     </div>
   )

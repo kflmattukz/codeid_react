@@ -116,7 +116,7 @@ function Employee() {
       <div className='w-3/5 mx-auto'>
         <button 
           onClick={() => setShowForm(!showForm)}
-          className='p-2 my-2 bg-blue-600 rounded text-white font-semibold'
+          className='p-2 my-2 bg-blue-600 rounded text-white font-semibold focus:outline-none hover:ring focus:ring ring-blue-400'
         >{ showForm ? 'List Employee' : 'Add Employee' }</button>
       </div>
       { showForm ? <FromInput onSubmit={addEmployee} /> : showEmployeeTable() }
