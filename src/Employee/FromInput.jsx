@@ -1,19 +1,30 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { addEmployee } from '../store/features/employeeSlice'
 
-function FromInput({onSubmit}) {
+function FromInput() {
 
+  const dispatch = useDispatch()
   const [fullname, setFullname] = useState('')
   const [salary, setSalary] = useState(0)
+  const [notif, setShowNotif] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    onSubmit({
+    dispatch(addEmployee({
       empId: Math.floor(Math.random() * 1000),
       fullname,
       salary,
-    })
+    }))
+    setShowNotif(!notif);
     setFullname('')
     setSalary(0)
+  }
+
+  if (notif) {
+    setTimeout(() => {
+      setShowNotif(!notif)
+    },1000)
   }
 
   const handleChange = (e, name) => {
@@ -27,7 +38,7 @@ function FromInput({onSubmit}) {
 
 
   return (
-    <div className='w-3/5 mx-auto'>
+    <div className='w-full mx-auto mt-5'>
       <form onSubmit={(e) => handleSubmit(e)} className='w-1/2 text-lg text-gray-600 flex flex-col gap-2'>
         <label htmlFor="fullname">Full Name</label>
         <input 
@@ -49,6 +60,7 @@ function FromInput({onSubmit}) {
         /><br/>
         <button type="submit" className='py-2 my-2 bg-blue-600 rounded text-base text-white font-semibold focus:outline-none focus:ring ring-blue-400 hover:ring'>Tambah</button>
       </form>
+      { notif ? <p className='text-gray-700 font-semibold font-lg'>Add Employee Success</p> : '' }
     </div>
   )
 }
