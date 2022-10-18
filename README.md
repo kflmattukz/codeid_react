@@ -24,6 +24,59 @@
 
 ---
 
+## Install Tailwind CSS
+
+- install Tailwind packages
+  ```bash
+  npm install -D tailwindcss postcss autoprefixer
+  npx tailwindcss init -p
+  ```
+  note: npx tailwindcss init -p will create tailwind.config.cjs
+
+- Configure tailwind.config.cjs
+
+  ```cjs
+  /** @type {import('tailwindcss').Config} */
+  module.exports = {
+    content: [
+      "./index.html",
+      "./src/**/*.{js,ts,jsx,tsx}",
+    ],
+    theme: {
+      extend: {},
+    },
+    plugins: [],
+  }
+  ```
+
+- Add the Tailwind directives to your CSS
+
+  ```css
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+  ```
+
+- Tailwind css ready to use
+---
+
+## Install Redux, React-redix, Redux-toolkit
+
+- install redux toolkit
+  
+  ```bash
+  npm install @reduxjs/toolkit
+  ```
+
+- install redux it self
+  
+  ```bash
+  npm install redux
+  ```
+
+- Redux / Redux-Toolkit ready to use
+---
+
 ## Run the project
 
 - using vite
@@ -45,3 +98,7 @@
 - [x] Membuat fungsi tambah dan kurang gaji
 - [x] Fix Total Salary saat menambahkan Employee baru
 - [x] Install Tailwindcss dan percantik
+
+### Tugas 2 Raact Redux - Redux-toolkit
+
+- [x] Menambahkan Fungsi Increment & decrement Salary menggunakan react-redux / redux-toolkit
