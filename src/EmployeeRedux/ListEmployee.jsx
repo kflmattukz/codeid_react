@@ -1,7 +1,10 @@
 import React from 'react'
+import { doIncSalary, doDecSalary } from '../redux/action/employeeAction'
+import { useSelector, useDispatch } from 'react-redux'
 
-function ListEmployee(props) {
-  const {employees, handleIncSalary, handleDecSalary} = props;
+function ListEmployee() {
+  const employees = useSelector((state) => state.employees);
+  const dispatch = useDispatch();
 
   return (
     <table className='mt-5 w-full table-auto border'>
@@ -23,13 +26,13 @@ function ListEmployee(props) {
               <td className='border flex justify-around'>
                 <button 
                   className='py-1 px-3 m-1 bg-blue-500 hover:bg-blue-600 rounded-sm text-white font-semibold'
-                  onClick={() => handleIncSalary(emp.empId)}
+                  onClick={() => dispatch(doIncSalary({ id: emp.empId}))}
                 >
                   Tambah Gaji
                 </button>
                 <button 
                   className='py-1 px-3 m-1 bg-purple-500 hover:bg-purple-600 rounded-sm text-white font-semibold'
-                  onClick={() => handleDecSalary(emp.empId)}
+                  onClick={() => dispatch(doDecSalary({ id: emp.empId }))}
                 >
                   Kurang Gaji
                 </button>

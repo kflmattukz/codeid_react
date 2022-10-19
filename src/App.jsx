@@ -1,4 +1,6 @@
-import Employee from "./Employee/Employee"
+// import Employee from "./Employee/Employee"
+import Employee from "./EmployeeRedux/Employee"
+// import Employee from "./EmployeeReduxToolkit/Employee"
 
 function App() {
   return (

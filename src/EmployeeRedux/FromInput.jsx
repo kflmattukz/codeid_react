@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { addEmployee } from '../store/features/employeeSlice'
 
-function FromInput({ handleAddEmployee }) {
+function FromInput() {
 
+  const dispatch = useDispatch()
   const [fullname, setFullname] = useState('')
   const [salary, setSalary] = useState(0)
   const [notif, setShowNotif] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    handleAddEmployee({
+    dispatch(addEmployee({
       empId: Math.floor(Math.random() * 1000),
       fullname,
       salary,
-    })
+    }))
     setShowNotif(!notif);
     setFullname('')
     setSalary(0)
