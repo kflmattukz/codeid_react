@@ -102,3 +102,7 @@
 ### Tugas 2 Raact Redux - Redux-toolkit
 
 - [x] Menambahkan Fungsi Increment & decrement Salary menggunakan react-redux / redux-toolkit
+
+### Tugas 3 Exios 
+
+- [x] Konec ke BackEnd NestJS menggunakan Axios Js
