@@ -12,7 +12,6 @@ const INIT_STATE = {
 }
 
 const employeeReducer = (state = INIT_STATE, action) =>{
-    console.log(action.type)
     switch (action.type) {
         case GET_EMPLOYEES:
             return {...state}
