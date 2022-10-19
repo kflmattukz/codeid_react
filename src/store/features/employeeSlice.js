@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 const initialState = [
   {
     empId: 1,
@@ -21,12 +22,12 @@ export const employeeSlice = createSlice({
   name: 'employees',
   initialState,
   reducers: {
+
     addEmployee: (state, action) => {
       state.push(action.payload)
     },
 
     incrementSalary: (state, action) => {
-      console.log(action)
       state = state.map(emp => {
         if(emp.empId !== action.payload.id) {
           return emp
@@ -44,7 +45,7 @@ export const employeeSlice = createSlice({
         emp.salary -= 500;
         return emp;
       })
-    },
+    }
   }
 })
 

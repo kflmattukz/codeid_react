@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { doAddEmployee } from '../redux/action/employeeAction'
+import { addEmployee } from '../store/features/employeeSlice'
 
 function FromInput() {
-
   const dispatch = useDispatch()
   const [fullname, setFullname] = useState('')
   const [salary, setSalary] = useState(0)
@@ -11,7 +10,7 @@ function FromInput() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(doAddEmployee({
+    dispatch(addEmployee({
       empId: Math.floor(Math.random() * 1000),
       fullname,
       salary,

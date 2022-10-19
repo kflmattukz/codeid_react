@@ -16,7 +16,7 @@ const employeeReducer = (state = INIT_STATE, action) =>{
     switch (action.type) {
         case GET_EMPLOYEES:
             return {...state}
-        case "employees/addEmployee":
+        case ADD_EMPLOYEE:
             return addEmployee(state,action)
         case INC_SALARY:
             return incrementSalary(state, action)
