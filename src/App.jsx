@@ -5,6 +5,8 @@ import Region from "./viewApi/RegionApi/Region"
 import Country from "./viewApi/countryApi/Country"
 import Location from './viewApi/locationApi/Location'
 import Department from "./viewApi/departmentApi/Department"
+import Job from "./viewApi/jobApi/Job"
+import Employee from "./viewApi/employeeApi/Employee"
 
 function App() {
   return (
@@ -13,7 +15,9 @@ function App() {
       {/* <Employee /> */}
       {/* <Region /> */}
       {/* <Location /> */}
-      <Department/>
+      {/* <Department/> */}
+      {/* <Job/> */}
+      <Employee/>
     </div>
   )
 }
