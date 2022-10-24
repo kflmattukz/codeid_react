@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import departmentApi from '../../api/departmentApi'
 
-function DepartmentList() {
+function DepartmentList({ editDepartment, editForm }) {
 
   const [departments, setDepartments] = useState([])
 
@@ -13,11 +13,18 @@ function DepartmentList() {
     fetchData()
   },[])
 
-  const handleEdit = (id) => {
-
+  const handleEdit = (department) => {
+    editDepartment({
+      departmentId: department.departmentId,
+      departmentName: department.departmentName,
+      managerId: department.manager.employeeId,
+      locationId: department.location.locationId
+    })
+    editForm(true)
   }
 
   const handleDelete = (id) => {
+    id = Number(id)
     if (window.confirm('Are you sure to delete department with id ' + id)) {
       departmentApi.deleteDepartment(id).then(req => {
         if (req) {
@@ -48,7 +55,7 @@ function DepartmentList() {
               <td className='border pl-1'>{ department?.location?.streetAddress }</td>
               <td className='border flex justify-around'>
                 <button
-                  onClick={() => handleDelete(department.deparmentId) }
+                  onClick={() => handleDelete(department.departmentId) }
                   className='rounded border-none bg-red-600 hover:bg-red-700 text-white font-semibold text-sm py-1 px-2'
                 >Delete</button>
                 <button

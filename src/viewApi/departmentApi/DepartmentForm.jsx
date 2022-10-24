@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import locationApi from '../../api/locationApi'
 import employeeApi from '../../api/employeeApi'
+import departmentApi from '../../api/departmentApi'
 
 function DepartmentForm({ edit }) {
   const [locations,setLocations] = useState([])
@@ -19,6 +20,27 @@ function DepartmentForm({ edit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    if (edit) {
+      departmentApi.updateDepartment(Number(departmentId),{
+        departmentName,
+        managerId: Number(managerId),
+        locationId: Number(locationId)
+      }).then(req => {
+        if (req) {
+          setNotif(!notif)
+        }
+      })
+    } else {
+      departmentApi.addDepartment({
+        departmentName,
+        managerId: Number(managerId),
+        locationId: Number(locationId)
+      }).then(req => {
+        if (req) {
+          setNotif(!notif)
+        }
+      })
+    }
   }
 
   if(notif) {
@@ -28,6 +50,7 @@ function DepartmentForm({ edit }) {
   }
 
   const handleChange = (e) => {
+    console.log(e.target.name, e.target.value)
     if(e.target.name === 'departmentName') return setDepartmentName(e.target.value)
     if(e.target.name === 'managerId') return setManagerId(e.target.value)
     if(e.target.name === 'locationId') return setLocationId(e.target.value)
@@ -56,7 +79,7 @@ function DepartmentForm({ edit }) {
           <label htmlFor="managerId">Manager</label>
           <select value={ managerId } className='py-2 px-3 border border-gray-300 rounded shadow-sm outline-none w-full' name="managerId" id="managerId" onChange={(e) => handleChange(e)}>
             <option value=""> -- Choose Manager -- </option>
-            { employees?.map(employee => {
+            { employees?.map((employee) => {
               return (
                 <option key={employee.employeeId} value={employee.employeeId}>{employee.firstName} { employee.lastName }</option>
               )
@@ -85,9 +108,9 @@ function DepartmentForm({ edit }) {
           <label htmlFor="managerId">Manager</label>
           <select value={ managerId } className='py-2 px-3 border border-gray-300 rounded shadow-sm outline-none w-full' name="managerId" id="managerId" onChange={(e) => handleChange(e)}>
             <option value=""> -- Choose Manager -- </option>
-            { employees?.map(employee => {
+            { employees?.map((employee) => {
               return (
-                <option key={employee.employeeId} value={employee.employeeId}>{employee.firstName} { employee.lastName }</option>
+                <option key={employee.employeeId} value={ employee.employeeId }>{employee.firstName} { employee.lastName }</option>
               )
             }) }
           </select>
