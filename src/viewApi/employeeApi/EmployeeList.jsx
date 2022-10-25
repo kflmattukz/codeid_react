@@ -12,10 +12,18 @@ function EmployeeList({ editEmployee, editForm }) {
 
   const handleEdit = employee => {
     editEmployee({
-      jobId: job.jobId,
-      jobTitle: job.jobTitle,
-      minSalary: job.minSalary,
-      maxSalary: job.maxSalary
+      employeeId: employee.employeeId,
+      firstName: employee.firstName,
+      lastName: employee.lastName,
+      email: employee.email,
+      phoneNumber: employee.phoneNumber,
+      hireDate: employee.hireDate,
+      salary: employee.salary,
+      commissionPct: employee.commissionPct,
+      xempId: employee.xempId,
+      jobId: employee.job ? employee.job.jobId : '',
+      managerId: employee.manager ? employee.manager.employeeId : '',
+      departmentId: employee.department ? employee.department.departmentId : ''
     })
     editForm(true)
   }
@@ -25,8 +33,9 @@ function EmployeeList({ editEmployee, editForm }) {
   }
 
   const handleDelete = (id) => {
-    if (window.confirm('Are you sure to employee Job with id ' + id)) {
-      employeeApi.deleteJob(id).then(req => {
+    id = Number(id)
+    if (window.confirm('Are you sure to delete employee with id ' + id)) {
+      employeeApi.deleteEmployee(id).then(req => {
         if (req) {
           setEmployees(prevEmployees => prevEmployees.filter(employee => employee.employeeId !== id))
         }
@@ -44,6 +53,7 @@ function EmployeeList({ editEmployee, editForm }) {
           <th className='border'>Department</th>
           <th className='border'>Manager</th>
           <th className='border'>Salary</th>
+          <th className='border'>Action</th>
         </tr>
       </thead>
       <tbody>

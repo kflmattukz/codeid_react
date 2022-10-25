@@ -6,18 +6,13 @@ function Employee() {
 
   const [showForm, setShowForm] = useState(false)
   const [employeeDetails, setEmployeeDetails] = useState({})
-  const [employeeEdit, setEmployeeEdit] = useState({
-    jobId: '',
-    jobTitle: '',
-    minSalary: '',
-    maxSalary: ''
-  })
+  const [employeeEdit, setEmployeeEdit] = useState({})
 
   return (
     <div className='w-4/5 mx-auto'>
       <button 
         className='py-2 px-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold outline-none rounded shadow-sm duration-300'
-        onClick={ () => {setJobEdit({}) ,setShowForm(!showForm)} }
+        onClick={ () => {setEmployeeEdit({}) ,setShowForm(!showForm)} }
       >
         { showForm ? 'List Employees' : 'Add Employee'}
       </button>

@@ -1,33 +1,67 @@
-import React,{ useState } from 'react'
+import React,{ useState, useEffect } from 'react'
 import jobApi from '../../api/jobApi'
+import employeeApi from '../../api/employeeApi'
+import departmentApi from '../../api/departmentApi'
 
 function EmployeeForm({ edit }) {
 
+  const [employeeId, setEmployeeId] = useState(edit ? edit.employeeId : '')
+  const [firstName, setFirstName] = useState(edit ? edit.firstName : '')
+  const [lastName, setLastName] = useState(edit ? edit.lastName : '')
+  const [email, setEmail] = useState(edit ? edit.email : '')
+  const [phoneNumber, setPhoneNumber] = useState(edit ? edit.phoneNumber : '')
+  const [hireDate, setHireDate] = useState(edit ? edit.hireDate : '')
+  const [salary, setSalary] = useState(edit ? edit.salary : '')
+  const [commissionPct, setCommissionPct] = useState(edit ? edit.commissionPct : null)
+  const [xempId, setXempId] = useState(edit ? edit.xempId : null)
+  const [managerId, setManagerId] = useState(edit ? edit.managerId : null)
   const [jobId, setJobId] = useState(edit ? edit.jobId : '')
-  const [jobTitle, setJobTitle] = useState(edit ? edit.jobTitle : '')
-  const [minSalary, setMinSalary] = useState(edit ? edit.minSalary : '')
-  const [maxSalary, setMaxSalary] = useState(edit ? edit.maxSalary : '')
+  const [departmentId, setDepartmentId] = useState(edit ? edit.departmentId : '')
   const [notif, setNotif] = useState(false)
+
+  const [jobs, setJobs] = useState([])
+  const [managers, setManagers] = useState([])
+  const [departments, setDepartments] = useState([])
+
+  useEffect(() => {
+    jobApi.getAll().then(data => setJobs(data))
+    employeeApi.getAll().then(data => setManagers(data))
+    departmentApi.getAll().then(data => setDepartments(data))
+  }, [])
 
   const handleSubmit = e => {
     e.preventDefault()
     if (edit) {
-      jobApi.updateJob(jobId, {
-        jobTitle,
-        minSalary: Number(minSalary),
-        maxSalary: Number(maxSalary)
+      employeeApi.updateEmployee(Number(employeeId), {
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        hireDate,
+        salary: Number(salary),
+        commissionPct,
+        xempId,
+        managerId: Number(managerId),
+        jobId,
+        departmentId: Number(departmentId)
       }).then(req => {
         if (req) {
           setNotif(!notif)
         }
       })
-
     } else {
-      jobApi.addJob({
+      employeeApi.addEmployee({
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        hireDate,
+        salary: Number(salary),
+        commissionPct,
+        xempId,
+        managerId: Number(managerId),
         jobId,
-        jobTitle,
-        minSalary: Number(minSalary),
-        maxSalary: Number(maxSalary)
+        departmentId: Number(departmentId)
       }).then(req => {
         if (req) {
           setNotif(!notif)
@@ -45,87 +79,219 @@ function EmployeeForm({ edit }) {
 
   const handleChange = e => {
     console.log(e.target.name, e.target.value)
+    if (e.target.name === 'firstName') return setFirstName(e.target.value)
+    if (e.target.name === 'lastName') return setLastName(e.target.value)
+    if (e.target.name === 'email') return setEmail(e.target.value)
+    if (e.target.name === 'phoneNumber') return setPhoneNumber(e.target.value)
+    if (e.target.name === 'hireDate') return setHireDate(e.target.value)
+    if (e.target.name === 'salary') return setSalary(e.target.value)
+    if (e.target.name === 'commissionPct') return setCommissionPct(e.target.value)
+    if (e.target.name === 'xempId') return setXempId(e.target.value)
     if (e.target.name === 'jobId') return setJobId(e.target.value)
-    if (e.target.name === 'jobTitle') return setJobTitle(e.target.value)
-    if (e.target.name === 'minSalary') return setMinSalary(e.target.value)
-    if (e.target.name === 'maxSalary') return setMaxSalary(e.target.value)
+    if (e.target.name === 'managerId') return setManagerId(e.target.value)
+    if (e.target.name === 'departmentId') return setDepartmentId(e.target.value)
   }
 
   return (
-    <form className='mt-5 flex flex-col w-3/5 gap-3 text-gray-700' onSubmit={(e) => handleSubmit(e)}>
+    <form className='mt-5 flex flex-col w-3/5 gap-1 text-gray-700' onSubmit={(e) => handleSubmit(e)}>
       { edit ? 
         <>
-          <label htmlFor="jobId">job ID</label>
+          <label htmlFor="employeeId">Employee Id</label>
           <input
-            value={ jobId }
+            value={ employeeId }
             className='py-2 px-3 outline-none border border-gray-300 rounded shadow-sm' 
             onChange={(e) => handleChange(e)}
-            type="text" name="jobId" id="jobId" 
+            type="text" name="employeeId" id="employeeId"
             disabled={true}
             />
-          <label htmlFor="jobTitle">Job Title</label>
+          <label htmlFor="firstName">First Name</label>
           <input
-            value={ jobTitle }
+            value={ firstName }
             className='py-2 px-3 outline-none border border-gray-300 rounded shadow-sm' 
             onChange={(e) => handleChange(e)}
-            type="text" name="jobTitle" id="jobTitle" 
-            placeholder='ex. Programmer'
+            type="text" name="firstName" id="firstName" 
             />
-          <label htmlFor="minSalary">Min Salary</label>
+          <label htmlFor="lastName">Last Name</label>
           <input
-            value={ minSalary }
+            value={ lastName }
             className='py-2 px-3 outline-none border border-gray-300 rounded shadow-sm' 
             onChange={(e) => handleChange(e)}
-            type="text" name="minSalary" id="minSalary" 
-            placeholder='ex. 4000'
+            type="text" name="lastName" id="lastName" 
+            // placeholder='ex. Programmer'
             />
-          <label htmlFor="maxSalary">Max Salary</label>
+          <label htmlFor="email">Email</label>
           <input
-            value={ maxSalary }
+            value={ email }
             className='py-2 px-3 outline-none border border-gray-300 rounded shadow-sm' 
             onChange={(e) => handleChange(e)}
-            type="text" name="maxSalary" id="maxSalary" 
+            type="text" name="email" id="email" 
+            // placeholder='ex. 4000'
+            />
+          <label htmlFor="phoneNumber">Phone Number</label>
+          <input
+            value={ phoneNumber }
+            className='py-2 px-3 outline-none border border-gray-300 rounded shadow-sm' 
+            onChange={(e) => handleChange(e)}
+            type="text" name="phoneNumber" id="phoneNumber" 
+            // placeholder='ex. 9000'
+            />
+          <label htmlFor="hireDate">Hire Date</label>
+          <input
+            value={ hireDate }
+            className='py-2 px-3 outline-none border border-gray-300 rounded shadow-sm' 
+            onChange={(e) => handleChange(e)}
+            type="date" name="hireDate" id="hireDate" 
+            // placeholder='ex. 9000'
+            />
+          <label htmlFor="salary">Salary</label>
+          <input
+            value={ salary }
+            className='py-2 px-3 outline-none border border-gray-300 rounded shadow-sm' 
+            onChange={(e) => handleChange(e)}
+            type="text" name="salary" id="salary" 
             placeholder='ex. 9000'
             />
-          <button className='bg-blue-500 text-white py-1 px-2 rounded' type="submit">Update Job</button>
+          <label htmlFor="commissionPct">Commission Pct (optional)</label>
+          <input
+            value={ commissionPct }
+            className='py-2 px-3 outline-none border border-gray-300 rounded shadow-sm' 
+            onChange={(e) => handleChange(e)}
+            type="text" name="commissionPct" id="commissionPct" 
+            // placeholder='ex. 9000'
+            />
+          <label htmlFor="xempId">Xemp Id</label>
+          <input
+            value={ xempId }
+            className='py-2 px-3 outline-none border border-gray-300 rounded shadow-sm' 
+            onChange={(e) => handleChange(e)}
+            type="text" name="xempId" id="xempId" 
+            placeholder='ex. 9000'
+            />
+          <label htmlFor="jobId">Job</label>
+          <select value={ jobId } className='py-2 px-3 border border-gray-300 rounded shadow-sm outline-none w-full' name="jobId" id="jobId" onChange={(e) => handleChange(e)}>
+            <option value=""> -- Choose Job -- </option>
+            { jobs?.map((job) => {
+              return (
+                <option key={job.jobId} value={ job.jobId }>{job.jobTitle}</option>
+              )
+            }) }
+          </select>
+          <label htmlFor="managerId">Manager</label>
+          <select value={ managerId } className='py-2 px-3 border border-gray-300 rounded shadow-sm outline-none w-full' name="managerId" id="managerId" onChange={(e) => handleChange(e)}>
+            <option value=""> -- Choose Manager -- </option>
+            { managers?.map((manager) => {
+              return (
+                <option key={manager.employeeId} value={ manager.employeeId }>{manager.firstName} { manager.lastName }</option>
+              )
+            }) }
+          </select>
+          <label htmlFor="departmentId">Department</label>
+          <select value={ departmentId } className='py-2 px-3 border border-gray-300 rounded shadow-sm outline-none w-full' name="departmentId" id="departmentId" onChange={(e) => handleChange(e)}>
+            <option value=""> -- Choose Department -- </option>
+            { departments?.map((department) => {
+              return (
+                <option key={department.deparmentId} value={ department.departmentId }>{department.departmentName}</option>
+              )
+            }) }
+          </select>
+          <button className='bg-blue-500 text-white py-1 px-2 rounded' type="submit">Update Employee</button>
         </> : 
         <>
-          <label htmlFor="jobId">job ID</label>
+          <label htmlFor="firstName">First Name</label>
           <input
-            value={ jobId }
+            value={ firstName }
             className='py-2 px-3 outline-none border border-gray-300 rounded shadow-sm' 
             onChange={(e) => handleChange(e)}
-            type="text" name="jobId" id="jobId" 
+            type="text" name="firstName" id="firstName" 
             />
-          <label htmlFor="jobTitle">Job Title</label>
+          <label htmlFor="lastName">Last Name</label>
           <input
-            value={ jobTitle }
+            value={ lastName }
             className='py-2 px-3 outline-none border border-gray-300 rounded shadow-sm' 
             onChange={(e) => handleChange(e)}
-            type="text" name="jobTitle" id="jobTitle" 
-            placeholder='ex. Programmer'
+            type="text" name="lastName" id="lastName" 
+            // placeholder='ex. Programmer'
             />
-          <label htmlFor="minSalary">Min Salary</label>
+          <label htmlFor="email">Email</label>
           <input
-            value={ minSalary }
+            value={ email }
             className='py-2 px-3 outline-none border border-gray-300 rounded shadow-sm' 
             onChange={(e) => handleChange(e)}
-            type="text" name="minSalary" id="minSalary" 
-            placeholder='ex. 4000'
+            type="text" name="email" id="email" 
+            // placeholder='ex. 4000'
             />
-          <label htmlFor="maxSalary">Max Salary</label>
+          <label htmlFor="phoneNumber">Phone Number</label>
           <input
-            value={ maxSalary }
+            value={ phoneNumber }
             className='py-2 px-3 outline-none border border-gray-300 rounded shadow-sm' 
             onChange={(e) => handleChange(e)}
-            type="text" name="maxSalary" id="maxSalary" 
+            type="text" name="phoneNumber" id="phoneNumber" 
+            // placeholder='ex. 9000'
+            />
+          <label htmlFor="hireDate">Hire Date</label>
+          <input
+            value={ hireDate }
+            className='py-2 px-3 outline-none border border-gray-300 rounded shadow-sm' 
+            onChange={(e) => handleChange(e)}
+            type="date" name="hireDate" id="hireDate" 
+            // placeholder='ex. 9000'
+            />
+          <label htmlFor="salary">Salary</label>
+          <input
+            value={ salary }
+            className='py-2 px-3 outline-none border border-gray-300 rounded shadow-sm' 
+            onChange={(e) => handleChange(e)}
+            type="text" name="salary" id="salary" 
             placeholder='ex. 9000'
             />
-          <button className='bg-blue-500 text-white py-1 px-2 rounded' type="submit">Add Job</button>
+          <label htmlFor="commissionPct">Commission Pct (optional)</label>
+          <input
+            value={ commissionPct }
+            className='py-2 px-3 outline-none border border-gray-300 rounded shadow-sm' 
+            onChange={(e) => handleChange(e)}
+            type="text" name="commissionPct" id="commissionPct" 
+            // placeholder='ex. 9000'
+            />
+          <label htmlFor="xempId">Xemp Id</label>
+          <input
+            value={ xempId }
+            className='py-2 px-3 outline-none border border-gray-300 rounded shadow-sm' 
+            onChange={(e) => handleChange(e)}
+            type="text" name="xempId" id="xempId" 
+            placeholder='ex. 9000'
+            />
+          <label htmlFor="jobId">Job</label>
+          <select value={ jobId } className='py-2 px-3 border border-gray-300 rounded shadow-sm outline-none w-full' name="jobId" id="jobId" onChange={(e) => handleChange(e)}>
+            <option value=""> -- Choose Job -- </option>
+            { jobs?.map((job) => {
+              return (
+                <option key={job.jobId} value={ job.jobId }>{job.jobTitle}</option>
+              )
+            }) }
+          </select>
+          <label htmlFor="managerId">Manager</label>
+          <select value={ managerId } className='py-2 px-3 border border-gray-300 rounded shadow-sm outline-none w-full' name="managerId" id="managerId" onChange={(e) => handleChange(e)}>
+            <option value=""> -- Choose Manager -- </option>
+            { managers?.map((manager) => {
+              return (
+                <option key={manager.employeeId} value={ manager.employeeId }>{manager.firstName} { manager.lastName }</option>
+              )
+            }) }
+          </select>
+          <label htmlFor="departmentId">Department</label>
+          <select value={ departmentId } className='py-2 px-3 border border-gray-300 rounded shadow-sm outline-none w-full' name="departmentId" id="departmentId" onChange={(e) => handleChange(e)}>
+            <option value=""> -- Choose Department -- </option>
+            { departments?.map((department) => {
+              return (
+                <option key={department.deparmentId} value={ department.departmentId }>{department.departmentName}</option>
+              )
+            }) }
+          </select>
+          <button className='bg-blue-500 text-white py-1 px-2 rounded' type="submit">Add Employee</button>
         </>
       }
 
-      <p>{ notif ? edit ? 'Update Job Success': 'Add Job Success !' : '' }</p>
+      <p>{ notif ? edit ? 'Update Employee Success': 'Add Employee Success !' : '' }</p>
     </form>
   )
 }

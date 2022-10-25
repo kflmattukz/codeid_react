@@ -108,8 +108,25 @@
 ### Tugas 3 Exios
 
 - [x] Konect ke BackEnd NestJS menggunakan Axios Js 
+  
   - Get All Region
   
   - Delete Region
   
   - Add Region
+
+### Tugas 4 Selesaikan semua table
+
+- [ ] Region, Country, Location, Department, Employee, Job, Job_History
+
+
+
+### Self Learn
+
+- [ ] Redux-Saga
+
+- [ ] Formix
+
+- [ ] React-Router-dom
+
+- [ ] yup
