@@ -14,14 +14,14 @@ const addJh = async (data) => {
   .catch(err => console.log(err))
 }
 
-const deleteJh = async (jobid, employeeid) => {
-  return await axios.delete(`${config.base_url}/api/jh/${jobid}/${employeeid}`)
+const deleteJh = async (employeeid, jobid) => {
+  return await axios.delete(`${config.base_url}/api/jh/${employeeid}/${jobid}`)
     .then(request => request.data)
 }
 
-const updateJh = async (jobid, employeeid, data) => {
+const updateJh = async (employeeid, jobid, data) => {
   console.log(data)
-  return await axios.patch(`${config.base_url}/api/jh/${jobid}/${employeeid}`, data)
+  return await axios.patch(`${config.base_url}/api/jh/${employeeid}/${jobid}`, data)
     .then(request => request.data)
     .catch(err => err)
 }
