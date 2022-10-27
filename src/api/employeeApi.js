@@ -14,6 +14,12 @@ const addEmployee = async (data) => {
   .catch(err => console.log(err))
 }
 
+const getOne = async (employeeId) => {
+  return await axios.get(`${config.base_url}/api/employees/${employeeId}`)
+    .then(req => req.data)
+    .catch(err => err);
+}
+
 const deleteEmployee = async (id) => {
   return await axios.delete(`${config.base_url}/api/employees/${id}`)
     .then(request => request.data)
@@ -26,4 +32,4 @@ const updateEmployee = async (id, data) => {
     .catch(err => err)
 }
 
-export default { getAll, addEmployee, updateEmployee, deleteEmployee }
+export default { getAll, addEmployee, updateEmployee, deleteEmployee, getOne }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import EmployeeDetails from './EmployeeDetails'
 import employeeApi from '../../api/employeeApi'
+import { Link } from 'react-router-dom'
 
 function EmployeeList({ editEmployee, editForm }) {
 
@@ -75,10 +76,10 @@ function EmployeeList({ editEmployee, editForm }) {
                   onClick={ () => handleEdit(employee) }
                   className='rounded border-none bg-yellow-500 hover:bg-yellow-600 text-white font-semibold text-sm py-1 px-2'
                 >Edit</button>
-                <button
-                  onClick={ () => handleDetails(employee) }
+                <Link
+                  to={`/employee/${employee.employeeId}`}
                   className='rounded border-none bg-green-500 hover:bg-green-600 text-white font-semibold text-sm py-1 px-2'
-                >Details</button>
+                >Details</Link>
               </td>
             </tr>
           )

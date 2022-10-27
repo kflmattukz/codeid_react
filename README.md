@@ -117,7 +117,7 @@
 
 ### Tugas 4 Selesaikan semua table
 
-- [ ] Region, Country, Location, Department, Employee, Job, Job_History
+- [x] Region, Country, Location, Department, Employee, Job, Job_History
 
 ### Tugas 5 ?
 
@@ -125,8 +125,8 @@
 
 - [ ] Formix
 
-- [ ] React-Router-dom
+- [x] React-Router-dom
 
 - [ ] yup
 
-- [ ] Tailwindcss (Typography, form, navbar, list)
+- [x] Tailwindcss (Typography, form, navbar, list)

@@ -8,7 +8,7 @@ function Jh() {
   const [jhEdit, setJhEdit] = useState({})
 
   return (
-    <div className='w-4/5 mx-auto'>
+    <div className='w-4/5 mx-auto mt-5'>
       <button 
         className='py-2 px-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold outline-none rounded shadow-sm duration-300'
         onClick={ () => {setJhEdit({}) ,setShowForm(!showForm)} }
