@@ -119,9 +119,7 @@
 
 - [ ] Region, Country, Location, Department, Employee, Job, Job_History
 
-
-
-### Self Learn
+### Tugas 5 ?
 
 - [ ] Redux-Saga
 
@@ -130,3 +128,5 @@
 - [ ] React-Router-dom
 
 - [ ] yup
+
+- [ ] Tailwindcss (Typography, form, navbar, list)
