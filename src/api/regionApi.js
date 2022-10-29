@@ -8,7 +8,6 @@ const getAll = async () => {
 }
 
 const addRegion = async (data) => {
-  console.log(data)
   return await axios.post(`${config.base_url}/api/regions`, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -23,7 +22,6 @@ const deleteRegion = async (id) => {
 }
 
 const updateRegion = async (id, data) => {
-  console.log(data)
   return await axios.patch(`${config.base_url}/api/regions/${id}`, data, {
     headers: {
       "Content-Type": "multipart/form-data",

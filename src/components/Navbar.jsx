@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import logo from '../../public/vite.svg'
+import logo from '../assets/vite.svg'
 
 const Navbar = () => {
   return (

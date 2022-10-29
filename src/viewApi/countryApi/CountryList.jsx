@@ -1,35 +1,39 @@
-import React, { useEffect, useState } from 'react'
-import countryApi from '../../api/countryApi'
-import CountryForm from './CountryForm'
+import React, { useEffect, useState } from 'react';
+import countryApi from '../../api/countryApi';
+// import CountryForm from './CountryForm'
 
 export default function CountryList({ editCountry, editForm }) {
+  const [countries, setCountries] = useState([]);
 
-  const [countries, setCountries] = useState([])
-  
   useEffect(() => {
     async function fetchData() {
-      const result = await countryApi.getAll()
-      setCountries(result)
+      const result = await countryApi.getAll();
+      setCountries(result);
     }
-    fetchData()
-  },[false])
+    fetchData();
+  }, [false]);
 
   const handleDelete = (id) => {
     if (window.confirm('Are you sure to delete Country with id ' + id)) {
-      countryApi.deleteCountry(id).then(req => {
-        if (req) console.log('Delete Succsess')
-      })
+      countryApi.deleteCountry(id).then((req) => {
+        if (req) {
+          setCountries((prevCountries) =>
+            prevCountries.filter((country) => country.countryId !== id)
+          );
+          window.alert('Delete Country with id ' + id + ' Success');
+        }
+      });
     }
-  }
+  };
 
   const handleEdit = (country) => {
-    editForm(true)
+    editForm(true);
     editCountry({
       countryId: country.countryId,
       countryName: country.countryName,
-      regionId: country.region.regionId
-    })
-  }
+      regionId: country.region.regionId,
+    });
+  };
 
   return (
     <table className='mt-5 w-full text-gray-700 bg-white rounded-md overflow-hidden shadow-sm'>
@@ -42,26 +46,30 @@ export default function CountryList({ editCountry, editForm }) {
         </tr>
       </thead>
       <tbody>
-        { countries?.map(country => {
-          return(
-            <tr key={ country.countryId }>
-              <td className='border text-center'>{ country.countryId }</td>
-              <td className='border pl-1'>{ country.countryName }</td>
-              <td className='border pl-1'>{ country.region.regionName }</td>
+        {countries?.map((country) => {
+          return (
+            <tr key={country.countryId}>
+              <td className='border text-center'>{country.countryId}</td>
+              <td className='border pl-1'>{country.countryName}</td>
+              <td className='border pl-1'>{country.region.regionName}</td>
               <td className='border flex justify-around'>
                 <button
-                  onClick={() => handleDelete(country.countryId) }
+                  onClick={() => handleDelete(country.countryId)}
                   className='rounded border-none bg-red-600 hover:bg-red-700 text-white font-semibold text-sm py-1 px-2'
-                >Delete</button>
+                >
+                  Delete
+                </button>
                 <button
-                  onClick={ () => handleEdit(country) }
+                  onClick={() => handleEdit(country)}
                   className='rounded border-none bg-yellow-500 hover:bg-yellow-600 text-white font-semibold text-sm py-1 px-2'
-                >Edit</button>
+                >
+                  Edit
+                </button>
               </td>
             </tr>
-          )
-        }) }
+          );
+        })}
       </tbody>
     </table>
-  )
+  );
 }

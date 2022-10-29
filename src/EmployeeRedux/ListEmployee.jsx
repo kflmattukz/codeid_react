@@ -1,8 +1,9 @@
 import React from 'react'
-import { doIncSalary, doDecSalary } from '../redux/action/employeeAction'
 import { useSelector, useDispatch } from 'react-redux'
+import { doIncSalary, doDecSalary } from '../redux/action/employeeAction'
 
 function ListEmployee() {
+  
   const employees = useSelector((state) => state.employees);
   const dispatch = useDispatch();
 

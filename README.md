@@ -123,10 +123,10 @@
 
 - [ ] Redux-Saga
 
-- [ ] Formix
+- [x] Formix
 
 - [x] React-Router-dom
 
-- [ ] yup
+- [x] yup
 
 - [x] Tailwindcss (Typography, form, navbar, list)
