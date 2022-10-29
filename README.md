@@ -121,7 +121,7 @@
 
 ### Tugas 5 ?
 
-- [ ] Redux-Saga
+- [x] Redux-Saga
 
 - [x] Formix
 
