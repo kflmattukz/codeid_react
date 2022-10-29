@@ -1,35 +1,73 @@
 import React, { useState } from 'react';
-import regionApi from '../../api/regionApi';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
+import {
+  checkFileSize,
+  checkFileType,
+} from '../../helper/fileUploadValidation';
+import { addRegion } from '../../redux/actions/region';
+// import regionApi from '../../api/regionApi';
 
 function RegionForm({ edit }) {
-  const [regionId, setRegionId] = useState(edit ? edit.regionId : '');
-  const [regionName, setRegionName] = useState(edit ? edit.regionName : '');
-  const [regionFile, setRegionFile] = useState(null);
-  const [regionPhoto, setRegionPhoto] = useState(null);
+  const dispatch = useDispatch();
+
+  const FILE_SIZE = 1 * 1024 * 1024;
+  const SUPPORTED_FORMATS = [
+    'image/jpg',
+    'image/jpeg',
+    'image/gif',
+    'image/png',
+  ];
+
+  const formik = useFormik({
+    initialValues: {
+      regionId: edit ? edit.regionId : '',
+      regionName: edit ? edit.regionName : '',
+      regionFile: edit ? edit.regionFile : '',
+      regionPhoto: edit ? edit.regionPhoto : '',
+    },
+    validationSchema: Yup.object().shape({
+      regionName: Yup.string()
+        .min(3, 'Region Name at least have 3 characters')
+        .max(25, 'Region Name max 25 characters')
+        .required("Region name couln'd empty"),
+      regionFile: Yup.mixed()
+        .required('You must upload region file')
+        .test(
+          'FILE TYPE IS CORRECT',
+          'File format not match',
+          (value) => value && SUPPORTED_FORMATS.includes(value.type)
+        )
+        .test(
+          'FILE SIZE IS NOT TOO BIG',
+          'File Size too big',
+          (value) => value && value.size <= FILE_SIZE
+        ),
+      regionPhoto: Yup.mixed()
+        .required('You must upload region Photo')
+        .test(
+          'FILE TYPE IS CORRECT',
+          'File format not match',
+          (value) => value && SUPPORTED_FORMATS.includes(value.type)
+        )
+        .test(
+          'FILE SIZE IS NOT TOO BIG',
+          'File size too big',
+          (value) => value && value.size <= FILE_SIZE
+        ),
+    }),
+    onSubmit: (values) => {
+      dispatch(addRegion(values));
+    },
+  });
+
+  console.log(formik.values);
 
   const [notif, setNotif] = useState(false);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    if (edit.regionId) {
-      // regionApi.updateRegion(region.regionId,{region})
-      handleEdit(regionId, {
-        regionId,
-        regionName,
-        regionFile,
-        regionPhoto,
-      });
-      setNotif(!notif);
-    } else {
-      const result = await regionApi.addRegion({
-        regionName,
-        regionFile,
-        regionPhoto,
-      });
-      if (result) {
-        setNotif(!notif);
-      }
-    }
   };
 
   if (notif) {
@@ -38,16 +76,10 @@ function RegionForm({ edit }) {
     }, 2000);
   }
 
-  const handleChange = (e) => {
-    if (e.target.name === 'regionName') setRegionName(e.target.value);
-    if (e.target.name === 'regionFile') setRegionFile(e.target.files[0]);
-    if (e.target.name === 'regionPhoto') setRegionPhoto(e.target.files[0]);
-  };
-
   return (
     <div className='mt-5'>
       <form
-        onSubmit={(e) => submitHandler(e)}
+        onSubmit={formik.handleSubmit}
         encType='multipart/form-data'
         className='flex flex-col w-1/2 gap-3 text-gray-700'
       >
@@ -59,15 +91,15 @@ function RegionForm({ edit }) {
               type='text'
               disabled={true}
               name='regionId'
-              value={regionId}
+              value={formik.values.regionId}
             />
             <label htmlFor='regionName' className='font-semibold'>
               Region Name
             </label>
             <input
-              value={regionName}
+              value={formik.values.regionName}
               className='px-2 py-1 rounded focus:outline-none focus:ring ring-blue-400'
-              onChange={(e) => handleChange(e)}
+              onChange={formik.handleChange}
               type='text'
               name='regionName'
               id='regionName'
@@ -76,8 +108,10 @@ function RegionForm({ edit }) {
               Region File
             </label>
             <input
-              // value={ regionFile }
-              onChange={(e) => handleChange(e)}
+              value={formik.values.regionFile.filename}
+              onChange={(e) =>
+                formik.setFieldValue('regionFile', e.target.files[0])
+              }
               type='file'
               name='regionFile'
               id='regionFile'
@@ -86,8 +120,10 @@ function RegionForm({ edit }) {
               Region Photo
             </label>
             <input
-              // value={ regionPhoto }
-              onChange={(e) => handleChange(e)}
+              value={formik.values.regionPhoto.filename}
+              onChange={(e) =>
+                formik.setFieldValue('regionPhoto', e.target.files[0])
+              }
               type='file'
               name='regionPhoto'
               id='regionPhoto'
@@ -105,33 +141,40 @@ function RegionForm({ edit }) {
               Region Name
             </label>
             <input
-              // value={ regionName }
+              value={formik.values.regionName}
               className='px-2 py-1 rounded focus:outline-none focus:ring ring-blue-400'
-              onChange={(e) => handleChange(e)}
+              onChange={formik.handleChange}
               type='text'
               name='regionName'
               id='regionName'
             />
+            {formik.errors ? <p>{formik.errors.regionName}</p> : ''}
             <label htmlFor='regionFile' className='font-semibold'>
               Region File
             </label>
             <input
-              // value={ regionFile }
-              onChange={(e) => handleChange(e)}
+              value={formik.values.regionFile.filename}
+              onChange={(e) =>
+                formik.setFieldValue('regionFile', e.target.files[0])
+              }
               type='file'
               name='regionFile'
               id='regionFile'
             />
+            {formik.errors ? <p>{formik.errors.regionFile}</p> : ''}
             <label htmlFor='regionPhoto' className='font-semibold'>
               Region Photo
             </label>
             <input
-              // value={ regionPhoto }
-              onChange={(e) => handleChange(e)}
+              value={formik.values.regionPhoto.filename}
+              onChange={(e) =>
+                formik.setFieldValue('regionPhoto', e.target.files[0])
+              }
               type='file'
               name='regionPhoto'
               id='regionPhoto'
             />
+            {formik.errors ? <p>{formik.errors.regionPhoto}</p> : ''}
             <button
               type='submit'
               className='text-white bg-blue-500 hover:bg-blue-600 px-3 py-2 font-semibold rounded-md hover:shadow-md duration-300'

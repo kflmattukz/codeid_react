@@ -9,8 +9,6 @@ function Region() {
   const [showForm, setShowForm] = useState(false);
   const [editRegion, setEditRegion] = useState({});
 
-  console.log(editRegion);
-
   useEffect(() => {
     dispatch(getRegions());
   }, [dispatch]);
